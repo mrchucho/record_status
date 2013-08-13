@@ -100,7 +100,8 @@ describe RecordStatus do
         subject { MyRecord.new }
 
         it 'sets a scope for each status value' do
-          expect(subject.class.scopes).to include([:active, [:where, {status: 'A'}]])
+          scopes = subject.class.scopes.collect{|s| [s.first, s.last.call]}
+          expect(scopes).to include([:active, [:where, {status: 'A'}]])
         end
 
         describe 'status reader' do
@@ -142,9 +143,10 @@ describe RecordStatus do
 
         it 'sets a scope for each status value' do
           expect(subject.class.scopes).to have(6).scopes
-          expect(subject.class.scopes).to include([:active,                   [:where, {record_status: 'A'}]])
-          expect(subject.class.scopes).to include([:hidden,                   [:where, {record_status: 'H'}]])
-          expect(subject.class.scopes).to include([:administratively_deleted, [:where, {record_status: 'X'}]])
+          scopes = subject.class.scopes.collect{|s| [s.first, s.last.call]}
+          expect(scopes).to include([:active,                   [:where, {record_status: 'A'}]])
+          expect(scopes).to include([:hidden,                   [:where, {record_status: 'H'}]])
+          expect(scopes).to include([:administratively_deleted, [:where, {record_status: 'X'}]])
         end
 
         describe 'status reader' do
@@ -254,7 +256,8 @@ describe RecordStatus do
         subject { MyRecord.new }
 
         it 'sets a scope for each status value' do
-          expect(subject.class.scopes).to include([:private_practice, [:where, {type_code: 'P'}]])
+          scopes = subject.class.scopes.collect{|s| [s.first, s.last.call]}
+          expect(scopes).to include([:private_practice, [:where, {type_code: 'P'}]])
         end
 
         describe 'status reader' do

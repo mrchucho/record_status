@@ -98,7 +98,7 @@ module RecordStatus
       codes = options[:codes] || STATUSES
       default = options[:default]
       codes.each do |val, label|
-        scope label, where(field => val)
+        scope label, ->{ where(field => val) }
       end
 
       define_method attr do
